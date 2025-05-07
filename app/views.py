@@ -80,9 +80,6 @@ class ClientPurchaseHistoryView(viewsets.ReadOnlyModelViewSet):
     def get_queryset(self):
         return Sale.objects.filter(client__user=self.request.user).order_by('-sale_date')
   
-from django.shortcuts import render
 
-def dashboard(request):
-    return render(request, 'dashboard.html')
 
 

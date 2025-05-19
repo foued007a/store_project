@@ -1,3 +1,7 @@
+
+# Add this at the top of your settings.py
+import context_patch
+
 import os
 from pathlib import Path
 from datetime import timedelta

@@ -36,7 +36,10 @@ class LoginView(APIView):
         user = authenticate(username=username, password=password)
         if user is not None:
             refresh = RefreshToken.for_user(user)
-            return Response({"refresh": str(refresh), "access": str(refresh.access_token)})
+            # Add role to access token
+            access_token = refresh.access_token
+            access_token["role"] = user.role
+            return Response({"refresh": str(refresh), "access": str(access_token)})
         return Response({"error": "Invalid credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
 # ✅ ViewSets مع الصلاحيات الجديدة

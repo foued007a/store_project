@@ -59,6 +59,54 @@ class UserViewSet(viewsets.ModelViewSet):
 class ClientViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.all()
     serializer_class = ClientSerializer
+    
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            # Allow anyone to register a new client
+            return [AllowAny()]
+        # For other operations, use the original permission
+        return [IsAuthenticated(), IsAuthenticatedAndOwner()]
+    
+    def create(self, request, *args, **kwargs):
+        # Extract user data
+        username = request.data.get("username")
+        password = request.data.get("password")
+        email = request.data.get("email")
+        
+        # Validate required fields
+        if not username or not password:
+            return Response({"error": "Username and password are required"}, 
+                           status=status.HTTP_400_BAD_REQUEST)
+        
+        # Check if username already exists
+        if User.objects.filter(username=username).exists():
+            return Response({"error": "Username already exists"}, 
+                           status=status.HTTP_400_BAD_REQUEST)
+        
+        # Create user with customer role
+        user = User.objects.create_user(
+            username=username, 
+            password=password,
+            email=email,
+            role='customer'
+        )
+        
+        # Create client with the remaining data
+        client_data = {
+            'user': user.id,
+            'phone': request.data.get('phone', ''),
+            'address': request.data.get('address', '')
+        }
+        
+        serializer = self.get_serializer(data=client_data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        
+        # Return success response
+        return Response(
+            {"message": "Client registered successfully"}, 
+            status=status.HTTP_201_CREATED
+        )
     permission_classes = [IsAuthenticatedAndOwner]  # فقط المالك يرى بياناته أو العميل يرى بياناته الخاصة
 
 class PurchaseViewSet(viewsets.ModelViewSet):

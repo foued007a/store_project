@@ -159,30 +159,30 @@ async function login(username, password) {
 }
 
 // Register function
-async function register(username, password, role = 'customer') {
-  try {
-    const response = await fetch(`${API_URL}/register/`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password, role })
-    });
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || 'Registration failed');
+async function register(username, password, email, phone, address) {
+    try {
+        const response = await fetch(`${API_URL}/register/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password, email, phone, address })
+        });
+        
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || 'Registration failed');
+        }
+        
+        return await response.json();
+    } catch (error) {
+        console.error('Registration failed:', error);
+        throw error;
     }
-    
-    return await response.json();
-  } catch (error) {
-    console.error('Registration failed:', error);
-    throw error;
-  }
 }
 
 // Logout function
 function logout() {
   clearTokens();
-  window.location.href = '/login.html';
+  window.location.href = '/static/login.html';
 }
 
 // Export the authentication utilities

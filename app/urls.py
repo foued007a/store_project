@@ -19,3 +19,6 @@ urlpatterns = [
     path('history/', ClientPurchaseHistoryView.as_view({'get': 'list'}), name='purchase-history'),
 ]  # لا تكرر /api/ هنا، لأنه موجود في store/urls.py
 
+# Include router URLs
+urlpatterns += router.urls
+

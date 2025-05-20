@@ -18,13 +18,16 @@ class RegisterView(APIView):
     def post(self, request):
         username = request.data.get("username")
         password = request.data.get("password")
-        role = request.data.get("role", "customer")
+        # Remove role from registration, only create Client
         if not username or not password:
             return Response({"error": "All fields are required"}, status=status.HTTP_400_BAD_REQUEST)
         if User.objects.filter(username=username).exists():
             return Response({"error": "Username already exists"}, status=status.HTTP_400_BAD_REQUEST)
-        user = User.objects.create_user(username=username, password=password, role=role)
-        return Response({"message": "User created successfully"}, status=status.HTTP_201_CREATED)
+        # Create a User with default role 'customer' (not exposed to user)
+        user = User.objects.create_user(username=username, password=password, role='customer')
+        # Create a Client linked to this user
+        Client.objects.create(user=user)
+        return Response({"message": "Client created successfully"}, status=status.HTTP_201_CREATED)
 
 # ✅ تسجيل الدخول وإصدار JWT Token
 class LoginView(APIView):

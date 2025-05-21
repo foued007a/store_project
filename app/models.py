@@ -2,22 +2,27 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 
+
 # ✅ نموذج المستخدم المخصص
 class User(AbstractUser):
     ROLE_CHOICES = (
-        ('owner', 'Owner'),
-        ('customer', 'Customer'),
+        ("owner", "Owner"),
+        ("customer", "Customer"),
     )
-    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='customer')
+    role = models.CharField(max_length=10, choices=ROLE_CHOICES, default="customer")
+
 
 # ✅ نموذج العميل (يرتبط بالمستخدم)
 class Client(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='client')
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="client"
+    )
     phone = models.CharField(max_length=15, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
-    
+
     def __str__(self):
         return f"Client: {self.user.username}"
+
 
 # ✅ نموذج المنتج
 from django.db import models
@@ -25,20 +30,25 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.mail import send_mail  # لإرسال تنبيهات عبر البريد
 
+
 # ✅ نموذج المنتج مع تنبيه انخفاض المخزون
 class Product(models.Model):
     CATEGORY_CHOICES = [
-        ('homme', 'Homme'),
-        ('femme', 'Femme'),
-        ('unisex', 'Unisex'),
+        ("homme", "Homme"),
+        ("femme", "Femme"),
+        ("unisex", "Unisex"),
     ]
-    
+
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default='unisex')
+    category = models.CharField(
+        max_length=10, choices=CATEGORY_CHOICES, default="unisex"
+    )
     stock = models.PositiveIntegerField(default=0)
-    low_stock_threshold = models.PositiveIntegerField(default=5)  # 🚨 الحد الأدنى للتنبيه
+    low_stock_threshold = models.PositiveIntegerField(
+        default=5
+    )  # 🚨 الحد الأدنى للتنبيه
     created_at = models.DateTimeField(auto_now_add=True)
 
     def is_low_stock(self):
@@ -63,21 +73,24 @@ class Product(models.Model):
     def __str__(self):
         return f"{self.name} ({self.get_category_display()})"
 
-    
-    
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    category = models.CharField(max_length=10, choices=CATEGORY_CHOICES, default='unisex')
+    category = models.CharField(
+        max_length=10, choices=CATEGORY_CHOICES, default="unisex"
+    )
     stock = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.name} ({self.get_category_display()})"
 
+
 # ✅ نموذج المشتريات (شراء مخزون من الموردين)
 class Purchase(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="purchases")
+    product = models.ForeignKey(
+        Product, on_delete=models.CASCADE, related_name="purchases"
+    )
     quantity = models.PositiveIntegerField()
     supplier = models.CharField(max_length=255, blank=True, null=True)
     unit_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0)
@@ -95,13 +108,12 @@ class Purchase(models.Model):
         return f"Purchased {self.quantity} of {self.product.name}"
 
 
-
-    
-
 # ✅ نموذج المبيعات (بيع المنتجات للعملاء)
 class Sale(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="sales")
-    client = models.ForeignKey(Client, on_delete=models.SET_NULL, null=True, blank=True, related_name="sales")
+    client = models.ForeignKey(
+        Client, on_delete=models.SET_NULL, null=True, blank=True, related_name="sales"
+    )
     quantity = models.PositiveIntegerField()
     sale_date = models.DateTimeField(auto_now_add=True)
 
@@ -114,4 +126,3 @@ class Sale(models.Model):
 
     def __str__(self):
         return f"Sold {self.quantity} of {self.product.name} to {self.client.user.username if self.client else 'Unknown Client'}"
-

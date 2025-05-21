@@ -1,24 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Store Project</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/styles.css" rel="stylesheet">
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/styles.css" rel="stylesheet">
     <style>
         .alert {
             display: none;
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="login-container">
             <h2 class="form-title">Login</h2>
-            
+
             <div class="alert alert-danger" id="error-message" role="alert"></div>
-            
+
             <form id="login-form">
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
@@ -39,27 +41,30 @@
     </div>
 
     <script src="js/auth.js"></script>
+    <script src="js/role-router.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Check if already logged in
             if (window.Auth.isAuthenticated()) {
-                window.location.href = 'index.html';
+                window.RoleRouter.redirectBasedOnRole();
                 return;
             }
-            
+
             const loginForm = document.getElementById('login-form');
             const errorMessage = document.getElementById('error-message');
-            
-            loginForm.addEventListener('submit', async function(e) {
+
+            loginForm.addEventListener('submit', async function (e) {
                 e.preventDefault();
-                
+
                 const username = document.getElementById('username').value;
                 const password = document.getElementById('password').value;
-                
+
                 try {
                     errorMessage.style.display = 'none';
                     await window.Auth.login(username, password);
-                    window.location.href = 'index.html';
+
+                    // Use role router to redirect based on user role
+                    window.RoleRouter.redirectBasedOnRole();
                 } catch (error) {
                     errorMessage.textContent = error.message || 'Login failed. Please check your credentials.';
                     errorMessage.style.display = 'block';
@@ -68,4 +73,5 @@
         });
     </script>
 </body>
+
 </html>

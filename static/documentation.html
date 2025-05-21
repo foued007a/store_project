@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Project Documentation</title>
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/styles.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 20px;
+            padding-bottom: 40px;
+        }
+
+        .toc {
+            position: sticky;
+            top: 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding-top: 20px;
+        }
+
+        .subsection {
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+
+        pre {
+            background-color: #ffffff;
+            border: 1px solid;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        code {
+            color: #d63384;
+        }
+
+        .code-block {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+        }
+
+        .print-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        @media print {
+            .toc {
+                position: relative;
+            }
+
+            .print-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-4">
+                <h1>Store Project Documentation</h1>
+                <p class="lead">Comprehensive guide to the Store Project architecture, components, and implementation
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Table of Contents -->
+            <div class="col-md-3">
+                <div class="toc">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Table of Contents</h5>
+                        </div>
+                        <div class="card-body">
+                            <nav id="toc" class="nav flex-column">
+                                <a class="nav-link" href="#overview">1. Project Overview</a>
+                                <a class="nav-link" href="#architecture">2. Architecture</a>
+                                <a class="nav-link" href="#authentication">3. Authentication System</a>
+                                <a class="nav-link" href="#role-based">4. Role-Based Access Control</a>
+                                <a class="nav-link" href="#admin-module">5. Admin Module</a>
+                                <a class="nav-link ms-3" href="#admin-dashboard">5.1 Dashboard</a>
+                                <a class="nav-link ms-3" href="#admin-products">5.2 Products Management</a>
+                                <a class="nav-link ms-3" href="#admin-sales">5.3 Sales Management</a>
+                                <a class="nav-link ms-3" href="#admin-purchases">5.4 Purchases Management</a>
+                                <a class="nav-link ms-3" href="#admin-users">5.5 User Management</a>
+                                <a class="nav-link" href="#customer-module">6. Customer Module</a>
+                                <a class="nav-link ms-3" href="#customer-products">6.1 Product Browsing</a>
+                                <a class="nav-link ms-3" href="#customer-orders">6.2 Order Management</a>
+                                <a class="nav-link" href="#api-integration">7. API Integration</a>
+                                <a class="nav-link" href="#frontend-components">8. Frontend Components</a>
+                                <a class="nav-link" href="#navigation">9. Navigation & URLs</a>
+                                <a class="nav-link" href="#setup">10. Setup & Deployment</a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Documentation Content -->
+            <div class="col-md-9">
+                <!-- 1. Project Overview -->
+                <section id="overview" class="section">
+                    <h2>1. Project Overview</h2>
+                    <p>The Store Project is a comprehensive web application for managing an online store. It provides
+                        separate interfaces for administrators (store owners) and customers, with role-based access
+                        control to ensure appropriate permissions for each user type.</p>
+
+                    <div class="subsection">
+                        <h3>Key Features</h3>
+                        <ul>
+                            <li><strong>User Authentication</strong> - Secure login and registration system with JWT
+                                token-based authentication</li>
+                            <li><strong>Role-Based Access</strong> - Different interfaces and permissions for
+                                administrators and customers</li>
+                            <li><strong>Admin Dashboard</strong> - Sales analytics, inventory management, and user
+                                administration</li>
+                            <li><strong>Product Management</strong> - Add, edit, and delete products with image uploads
+                            </li>
+                            <li><strong>Order Processing</strong> - Complete order lifecycle management from creation to
+                                fulfillment</li>
+                            <li><strong>Sales Reporting</strong> - Detailed sales reports with filtering options</li>
+                            <li><strong>Customer Shopping</strong> - Product browsing, cart management, and order
+                                history</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- 2. Architecture -->
+                <section id="architecture" class="section">
+                    <h2>2. Architecture</h2>
+                    <p>The Store Project follows a client-server architecture with a clear separation between frontend
+                        and backend components.</p>
+
+                    <div class="subsection">
+                        <h3>Technology Stack</h3>
+                        <ul>
+                            <li><strong>Frontend</strong>: HTML, CSS, JavaScript, Bootstrap 5</li>
+                            <li><strong>Backend</strong>: Django (Python web framework)</li>
+                            <li><strong>Authentication</strong>: JWT (JSON Web Tokens)</li>
+                            <li><strong>API</strong>: RESTful API endpoints</li>
+                        </ul>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Project Structure</h3>
+                        <div class="code-block">
+                            <pre>store_project/
+├── store/                  # Django backend application
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py
+│   ├── urls.py
+│   └── wsgi.py
+└── static/                 # Frontend assets
+    ├── admin/              # Admin interface pages
+    │   ├── dashboard.html
+    │   ├── products.html
+    │   ├── purchases.html
+    │   ├── sales.html
+    │   └── users.html
+    ├── customer/           # Customer interface pages
+    │   ├── orders.html
+    │   └── products.html
+    ├── js/                 # JavaScript files
+    │   ├── admin/          # Admin-specific JS
+    │   │   ├── dashboard.js
+    │   │   ├── products.js
+    │   │   ├── purchases.js
+    │   │   ├── sales.js
+    │   │   └── users.js
+    │   ├── customer/       # Customer-specific JS
+    │   │   ├── orders.js
+    │   │   └── products.js
+    │   ├── auth.js         # Authentication utilities
+    │   └── role-router.js  # Role-based routing
+    ├── assets/             # CSS, images, and third-party libraries
+    ├── index.html          # Main landing page
+    ├── login.html          # Login page
+    └── register.html       # Registration page</pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. Authentication System -->
+                <section id="authentication" class="section">
+                    <h2>3. Authentication System</h2>
+                    <p>The Store Project implements a secure JWT (JSON Web Token) based authentication system that
+                        manages user sessions and API access.</p>
+
+                    <div class="subsection">
+                        <h3>Authentication Flow</h3>
+                        <ol>
+                            <li>User submits credentials (username/password) via login form</li>
+                            <li>Backend validates credentials and generates JWT tokens (access and refresh)</li>
+                            <li>Tokens are stored in browser's localStorage with expiration time</li>
+                            <li>Access token is included in Authorization header for API requests</li>
+                            <li>When access token expires, system automatically attempts to refresh it</li>
+                            <li>On logout, tokens are cleared from localStorage</li>
+                        </ol>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Key Authentication Functions</h3>
+                        <p>The authentication system is implemented in <code>auth.js</code> with these key functions:
+                        </p>
+                        <ul>
+                            <li><code>login(username, password)</code> - Authenticates user and stores tokens</li>
+                            <li><code>logout()</code> - Clears authentication tokens</li>
+                            <li><code>isAuthenticated()</code> - Checks if user is currently authenticated</li>
+                            <li><code>apiRequest(endpoint, options)</code> - Makes authenticated API requests</li>
+                            <li><code>refreshToken()</code> - Refreshes expired access token</li>
+                        </ul>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Token Storage</h3>
+                        <p>Tokens are stored in localStorage with the following structure:</p>
+                        <div class="code-block">
+                            <pre>{
+  "access": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",  // Access token
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...", // Refresh token
+  "expiresAt": "2023-06-01T12:00:00.000Z"               // Expiration timestamp
+}</pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. Role-Based Access Control -->
+                <section id="role-based" class="section">
+                    <h2>4. Role-Based Access Control</h2>
+                    <p>The application implements role-based access control to direct users to appropriate interfaces
+                        and restrict access to authorized features.</p>
+
+                    <div class="subsection">
+                        <h3>User Roles</h3>
+                        <ul>
+                            <li><strong>Owner (Admin)</strong> - Full access to admin dashboard, product management,
+                                sales data, and user management</li>
+                            <li><strong>Customer</strong> - Access to product browsing, shopping cart, and order
+                                management</li>
+                        </ul>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Role-Based Routing</h3>
+                        <p>The <code>role-router.js</code> module handles redirecting users based on their role:</p>
+                        <ul>
+                            <li>Extracts user role from JWT token payload</li>
+                            <li>Redirects to appropriate interface based on role</li>
+                            <li>Prevents unauthorized access to restricted pages</li>
+                        </ul>
+                        <p>Key functions:</p>
+                        <ul>
+                            <li><code>getUserRole()</code> - Extracts role from JWT token</li>
+                            <li><code>redirectBasedOnRole()</code> - Redirects user to appropriate interface</li>
+                            <li><code>checkAccess(allowedRoles)</code> - Verifies if current user has required role</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- 5. Admin Module -->
+                <section id="admin-module" class="section">
+                    <h2>5. Admin Module</h2>
+                    <p>The Admin Module provides store owners with tools to manage all aspects of the store operation.
+                    </p>
+
+                    <!-- 5.1 Dashboard -->
+                    <div id="admin-dashboard" class="subsection">
+                        <h3>5.1 Dashboard</h3>
+                        <p>The dashboard provides an overview of store performance with key metrics and visualizations.
+                        </p>
+                        <ul>
+                            <li>Sales summary (daily, weekly, monthly)</li>
+                            <li>Recent orders</li>
+                            <li>Inventory alerts</li>
+                        </ul>
+                    </div>
+
+                    <!-- 5.2 Products Management -->
+                    <div id="admin-products" class="subsection">
+                        <h3>5.2 Products Management</h3>
+                        <p>The products management interface allows administrators to manage the store's product
+                            catalog.</p>
+                        <ul>
+                            <li>Add new products with details (name, description, price, etc.)</li>
+                            <li>Edit existing product information</li>
+                            <li>Delete products</li>
+                            <li>Update inventory levels</li>
+                        </ul>
+                    </div>
+
+                    <!-- 5.3 Sales Management -->
+                    <div id="admin-sales" class="subsection">
+                        <h3>5.3 Sales Management</h3>
+                        <p>The sales management interface provides tools for tracking and managing customer orders.</p>
+                        <ul>
+                            <li>View all orders with filtering options (date range)</li>
+                            <li>Order details view with line items</li>
+                            <li>Generate and print order receipts</li>
+                            <li>Generate sales reports</li>
+                            <li>View sales analytics (total sales, order count, average order value)</li>
+                        </ul>
+
+                        <h4>Sales Report Generation</h4>
+                        <p>The system can generate comprehensive sales reports with the following features:</p>
+                        <ul>
+                            <li>Filter by date range</li>
+                            <li>Summary statistics (total sales, order count, average order value)</li>
+                            <li>Detailed transaction list</li>
+                            <li>Printable format</li>
+                        </ul>
+                    </div>
+
+                    <!-- 5.4 Purchases Management -->
+                    <div id="admin-purchases" class="subsection">
+                        <h3>5.4 Purchases Management</h3>
+                        <p>The purchases management interface allows tracking of inventory purchases and stock levels.
+                        </p>
+                        <ul>
+                            <li>Record new inventory purchases</li>
+                            <li>Manage suppliers</li>
+                            <li>Update inventory levels based on purchases</li>
+                            <li>Generate purchase reports</li>
+                        </ul>
+                    </div>
+
+                    <!-- 5.5 User Management -->
+                    <div id="admin-users" class="subsection">
+                        <h3>5.5 User Management</h3>
+                        <p>The user management interface allows administrators to manage customer accounts.</p>
+                        <ul>
+                            <li>View all registered users</li>
+                            <li>Edit user information</li>
+                            <li>View user order history</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- 6. Customer Module -->
+                <section id="customer-module" class="section">
+                    <h2>6. Customer Module</h2>
+                    <p>The Customer Module provides the shopping interface for customers to browse products and manage
+                        their orders.</p>
+
+                    <!-- 6.1 Product Browsing -->
+                    <div id="customer-products" class="subsection">
+                        <h3>6.1 Product Browsing</h3>
+                        <p>The product browsing interface allows customers to view and purchase products.</p>
+                        <ul>
+                            <li>Browse products</li>
+                            <li>View product details</li>
+                            <li>Add products to shopping cart</li>
+                            <li>Adjust quantities</li>
+                            <li>Proceed to checkout</li>
+                        </ul>
+                    </div>
+
+                    <!-- 6.2 Order Management -->
+                    <div id="customer-orders" class="subsection">
+                        <h3>6.2 Order Management</h3>
+                        <p>The order management interface allows customers to view and track their orders.</p>
+                        <ul>
+                            <li>View order history & status</li>
+                            <li>View order details</li>
+                            <li>Print order receipts</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- 7. API Integration -->
+                <section id="api-integration" class="section">
+                    <h2>7. API Integration</h2>
+                    <p>The frontend communicates with the backend through a RESTful API. All API requests are
+                        authenticated using JWT tokens.</p>
+
+                    <div class="subsection">
+                        <h3>API Endpoints</h3>
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Endpoint</th>
+                                    <th>Method</th>
+                                    <th>Description</th>
+                                    <th>Access</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>/api/auth/login/</code></td>
+                                    <td>POST</td>
+                                    <td>Authenticate user and get tokens</td>
+                                    <td>Public</td>
+                                </tr>
+                                <tr>
+                                    <td><code>/api/auth/register/</code></td>
+                                    <td>POST</td>
+                                    <td>Register new user</td>
+                                    <td>Public</td>
+                                </tr>
+                                <tr>
+                                    <td><code>/api/auth/refresh/</code></td>
+                                    <td>POST</td>
+                                    <td>Refresh access token</td>
+                                    <td>Authenticated</td>
+                                </tr>
+                                <tr>
+                                    <td><code>/api/products/</code></td>
+                                    <td>GET</td>
+                                    <td>Get all products</td>
+                                    <td>Public</td>
+                                </tr>
+                                <tr>
+                                    <td><code>/api/products/{id}/</code></td>
+                                    <td>GET</td>
+                                    <td>Get product details</td>
+                                    <td>Public</td>
+                                </tr>
+                                <tr>
+                                    <td><code>/api/products/</code></td>
+                                    <td>POST</td>
+                                    <td>Create new product</td>
+                                    <td>Admin</td>
+                                </tr>
+                                <tr>
+                                    <td><code>/api/products/{id}/</code></td>
+                                    <td>PUT</td>
+                                    <td>Update product</td>
+                                    <td>Admin</td>
+                                </tr>
+                                <tr>
+                                    <td><code>/api/products/{id}/</code></td>
+                                    <td>DELETE</td>
+                                    <td>Delete product</td>
+                                    <td>Admin</td>
+                                </tr>
+                                <tr>
+                                    <td><code>/api/orders/</code></td>
+                                    <td>GET</td>
+                                    <td>Get user orders</td>
+                                    <td>Authenticated</td>
+                                </tr>
+                                <tr>
+                                    <td><code>/api/orders/</code></td>
+                                    <td>POST</td>
+                                    <td>Create new order</td>
+                                    <td>Authenticated</td>
+                                </tr>
+                                <tr>
+                                    <td><code>/api/orders/{id}/</code></td>
+                                    <td>GET</td>
+                                    <td>Get order details</td>
+                                    <td>Order Owner/Admin</td>
+                                </tr>
+                                <tr>
+                                    <td><code>/api/sales/</code></td>
+                                    <td>GET</td>
+                                    <td>Get sales data</td>
+                                    <td>Admin</td>
+                                </tr>
+                                <tr>
+                                    <td><code>/api/users/</code></td>
+                                    <td>GET</td>
+                                    <td>Get all users</td>
+                                    <td>Admin</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Making API Requests</h3>
+                        <p>The <code>apiRequest</code> function in <code>auth.js</code> handles all API communication:
+                        </p>
+                        <div class="code-block">
+                            <pre>// Example of making an authenticated API request
+async function fetchProducts() {
+  try {
+    const response = await window.Auth.apiRequest('/products/');
+
+    if (!response.ok) {
+      throw new Error('Failed to fetch products');
+    }
+
+    const products = await response.json();
+    displayProducts(products);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  }
+}</pre>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 8. Frontend Components -->
+                <section id="frontend-components" class="section">
+                    <h2>8. Frontend Components</h2>
+                    <p>The frontend is built using HTML, CSS, and JavaScript with Bootstrap 5 for responsive design.</p>
+
+                    <div class="subsection">
+                        <h3>Key JavaScript Modules</h3>
+                        <ul>
+                            <li><code>auth.js</code> - Authentication utilities</li>
+                            <li><code>role-router.js</code> - Role-based routing</li>
+                            <li><code>admin/*.js</code> - Admin interface functionality</li>
+                            <li><code>customer/*.js</code> - Customer interface functionality</li>
+                        </ul>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>UI Components</h3>
+                        <ul>
+                            <li><strong>Navigation</strong> - Responsive navbar with role-based menu items</li>
+                            <li><strong>Product Cards</strong> - Display product information in grid layout</li>
+                            <li><strong>Data Tables</strong> - Display tabular data with sorting and filtering</li>
+                            <li><strong>Forms</strong> - Input forms with validation</li>
+                            <li><strong>Modals</strong> - Popup dialogs for detailed views and confirmations</li>
+                            <li><strong>Alerts</strong> - Feedback messages for user actions</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <!-- 9. Navigation & URLs -->
+                <section id="navigation" class="section">
+                    <h2>9. Navigation & URLs</h2>
+                    <p>The Store Project is accessed through Django's static file serving. All frontend pages are accessible via specific URL patterns.</p>
+
+                    <div class="subsection">
+                        <h3>URL Structure</h3>
+                        <p>When the Django development server is running, the application is accessible at <code>localhost:8000</code>. The frontend pages are served from the <code>/static/</code> path.</p>
+                        
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Page</th>
+                                    <th>URL</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Landing Page</td>
+                                    <td><code>http://localhost:8000/static/index.html</code></td>
+                                    <td>Main entry point to the application</td>
+                                </tr>
+                                <tr>
+                                    <td>Login</td>
+                                    <td><code>http://localhost:8000/static/login.html</code></td>
+                                    <td>User authentication page</td>
+                                </tr>
+                                <tr>
+                                    <td>Registration</td>
+                                    <td><code>http://localhost:8000/static/register.html</code></td>
+                                    <td>New user registration</td>
+                                </tr>
+                                <tr>
+                                    <td>Documentation</td>
+                                    <td><code>http://localhost:8000/static/documentation.html</code></td>
+                                    <td>This documentation page</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Admin Interface URLs</h3>
+                        <p>The admin interface is accessible through the following URLs:</p>
+                        
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Page</th>
+                                    <th>URL</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Dashboard</td>
+                                    <td><code>http://localhost:8000/static/admin/dashboard.html</code></td>
+                                    <td>Admin dashboard with analytics</td>
+                                </tr>
+                                <tr>
+                                    <td>Products</td>
+                                    <td><code>http://localhost:8000/static/admin/products.html</code></td>
+                                    <td>Product management</td>
+                                </tr>
+                                <tr>
+                                    <td>Users</td>
+                                    <td><code>http://localhost:8000/static/admin/users.html</code></td>
+                                    <td>User management</td>
+                                </tr>
+                                <tr>
+                                    <td>Sales</td>
+                                    <td><code>http://localhost:8000/static/admin/sales.html</code></td>
+                                    <td>Sales management and reports</td>
+                                </tr>
+                                <tr>
+                                    <td>Purchases</td>
+                                    <td><code>http://localhost:8000/static/admin/purchases.html</code></td>
+                                    <td>Purchases management</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Customer Interface URLs</h3>
+                        <p>The customer interface is accessible through the following URLs:</p>
+                        
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Page</th>
+                                    <th>URL</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Products</td>
+                                    <td><code>http://localhost:8000/static/customer/products.html</code></td>
+                                    <td>Product browsing and shopping</td>
+                                </tr>
+                                <tr>
+                                    <td>Orders</td>
+                                    <td><code>http://localhost:8000/static/customer/orders.html</code></td>
+                                    <td>Order history and tracking</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Navigation Flow</h3>
+                        <p>The application implements role-based navigation:</p>
+                        <ol>
+                            <li>Users start at the landing page (<code>/static/index.html</code>)</li>
+                            <li>Unauthenticated users are directed to login</li>
+                            <li>After authentication, users are redirected to their role-specific interface:</li>
+                            <ul>
+                                <li>Administrators → Admin Dashboard</li>
+                                <li>Customers → Product Browsing</li>
+                            </ul>
+                        </ol>
+                    </div>
+                </section>
+
+                <!-- 10. Setup & Deployment -->
+                <section id="setup" class="section">
+                    <h2>10. Setup & Deployment</h2>
+                    <p>Instructions for setting up and deploying the Store Project.</p>
+
+                    <div class="subsection">
+                        <h3>Prerequisites</h3>
+                        <ul>
+                            <li>Python 3.8+ with pip</li>
+                            <li>Database (sqllite3)</li>
+                        </ul>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Backend Setup</h3>
+                        <ol>
+                            <li>Clone the repository</li>
+                            <li>Create and activate a virtual environment</li>
+                            <li>Install dependencies: <code>pip install -r requirements.txt</code></li>
+                            <li>Configure database settings in <code>settings.py</code></li>
+                            <li>Run migrations: <code>python manage.py migrate</code></li>
+                            <li>Create superuser: <code>python manage.py createsuperuser</code></li>
+                            <li>Start development server: <code>python manage.py runserver</code></li>
+                        </ol>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Frontend Access</h3>
+                        <p>The frontend is served directly through Django's static file serving:</p>
+                        <ol>
+                            <li>Start the Django development server: <code>python manage.py runserver</code></li>
+                            <li>Access the application at <code>http://localhost:8000/static/index.html</code></li>
+                            <li>No separate frontend server is needed as all static files are served by Django</li>
+                        </ol>
+                        <p><strong>Note:</strong> For development purposes, you can modify the HTML, CSS, and JavaScript files directly in the <code>static/</code> directory. Django will serve the updated files without requiring a server restart.</p>
+                    </div>
+
+                    <div class="subsection">
+                        <h3>Deployment</h3>
+                        <p>For production deployment:</p>
+                        <ol>
+                            <li>Set <code>DEBUG = False</code> in <code>settings.py</code></li>
+                            <li>Configure <code>ALLOWED_HOSTS</code> in <code>settings.py</code></li>
+                            <li>Set up a production database</li>
+                            <li>Configure static files serving</li>
+                            <li>Set up a web server (Nginx, Apache) with WSGI/ASGI</li>
+                            <li>Configure SSL for secure connections</li>
+                        </ol>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-primary print-button" onclick="window.print()">Print Documentation</button>
+
+    <script src="assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 20,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

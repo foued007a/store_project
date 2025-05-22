@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Pagination state
   let currentPage = 1;
-  const itemsPerPage = 5;
+  const itemsPerPage =10;
   let totalItems = 0;
 
   // Filter state
@@ -76,9 +76,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const ordersCount = salesData.length;
     const avgOrderValue = ordersCount > 0 ? totalSales / ordersCount : 0;
 
-    totalSalesEl.textContent = `$${totalSales.toFixed(2)}`;
+    totalSalesEl.textContent = 'DA '+`${totalSales.toFixed(2)}`;
     ordersCountEl.textContent = ordersCount;
-    avgOrderValueEl.textContent = `$${avgOrderValue.toFixed(2)}`;
+    avgOrderValueEl.textContent = 'DA '+`${avgOrderValue.toFixed(2)}`;
   }
 
   // Display sales in table
@@ -97,11 +97,11 @@ document.addEventListener("DOMContentLoaded", function () {
         (sale) => new Date(sale.date) <= new Date(filters.dateTo)
       );
     }
-    if (filters.customerId) {
-      filteredSales = filteredSales.filter(
-        (sale) => sale.customer.id === parseInt(filters.customerId)
-      );
-    }
+    // if (filters.customerId) {
+    //   filteredSales = filteredSales.filter(
+    //     (sale) => sale.customer.id === parseInt(filters.customerId)
+    //   );
+    // }
 
     totalItems = filteredSales.length;
 
@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <td>${date}</td>
                     <td>${sale.customer}</td>
                     <td>${sale.items.length} items</td>
-                    <td>$${sale.total.toFixed(2)}</td>
+                    <td>DA${sale.total.toFixed(2)}</td>
                     <td><span class="badge ${getStatusBadgeClass(
                       sale.status
                     )}">${sale.status}</span></td>
@@ -239,8 +239,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 <tr>
                     <td>${item.product.name}</td>
                     <td>${item.quantity}</td>
-                    <td>$${item.price.toFixed(2)}</td>
-                    <td>$${(item.price * item.quantity).toFixed(2)}</td>
+                    <td>DA${item.price.toFixed(2)}</td>
+                    <td>DA${(item.price * item.quantity).toFixed(2)}</td>
                 </tr>
             `;
     });
@@ -283,7 +283,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <tfoot>
                         <tr>
                             <th colspan="3" class="text-end">Total:</th>
-                            <th>$${sale.total.toFixed(2)}</th>
+                            <th>DA${sale.total.toFixed(2)}</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -318,8 +318,8 @@ document.addEventListener("DOMContentLoaded", function () {
         <tr>
           <td>${item.product.name}</td>
           <td>${item.quantity}</td>
-          <td>$${item.price.toFixed(2)}</td>
-          <td>$${(item.price * item.quantity).toFixed(2)}</td>
+          <td>DA${item.price.toFixed(2)}</td>
+          <td>DA${(item.price * item.quantity).toFixed(2)}</td>
         </tr>
       `;
     });
@@ -400,8 +400,8 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
           <div class="customer-info">
             <h4>Customer Information</h4>
-            <p><strong>Name:</strong> ${sale.customer.username}</p>
-            <p><strong>Email:</strong> ${sale.customer.email}</p>
+            <p><strong>Name:</strong> ${sale.customer}</p>
+            <p><strong>Email:</strong> ${sale.customer}</p>
             <p><strong>Shipping Address:</strong> ${sale.shippingAddress || "Not provided"}</p>
           </div>
           <table>
@@ -418,7 +418,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </tbody>
           </table>
           <div class="total">
-            <p>Total: $${sale.total.toFixed(2)}</p>
+            <p>Total: DA${sale.total.toFixed(2)}</p>
           </div>
           <div class="footer">
             <p>Thank you for your purchase!</p>
@@ -444,7 +444,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     filters.dateFrom = document.getElementById("date-from").value;
     filters.dateTo = document.getElementById("date-to").value;
-    filters.customerId = document.getElementById("customer").value;
 
     currentPage = 1; // Reset to first page
     fetchSales();
@@ -456,7 +455,7 @@ document.addEventListener("DOMContentLoaded", function () {
     filters = {
       dateFrom: "",
       dateTo: "",
-      customerId: "",
+      // customerId: "",
     };
 
     currentPage = 1; // Reset to first page
@@ -519,7 +518,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <td>${date}</td>
           <td>${sale.customer}</td>
           <td>${sale.items.length}</td>
-          <td>$${sale.total.toFixed(2)}</td>
+          <td>DA${sale.total.toFixed(2)}</td>
           <td>${sale.status}</td>
         </tr>
       `;
@@ -615,7 +614,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <div class="summary-cards">
             <div class="summary-card">
               <h3>Total Sales</h3>
-              <p>$${totalSales.toFixed(2)}</p>
+              <p>DA${totalSales.toFixed(2)}</p>
             </div>
             <div class="summary-card">
               <h3>Orders Count</h3>
@@ -623,7 +622,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </div>
             <div class="summary-card">
               <h3>Average Order Value</h3>
-              <p>$${avgOrderValue.toFixed(2)}</p>
+              <p>DA${avgOrderValue.toFixed(2)}</p>
             </div>
           </div>
           <h2>Sales Transactions</h2>

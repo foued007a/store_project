@@ -75,10 +75,10 @@ document.addEventListener("DOMContentLoaded", function () {
                                 }</p>
                             </div>
                             <div class="text-end">
-                                <p>$${item.price.toFixed(2)} x ${
+                                <p>DA${item.price.toFixed(2)} x ${
           item.quantity
         }</p>
-                                <p><strong>$${(
+                                <p><strong>DA${(
                                   item.price * item.quantity
                                 ).toFixed(2)}</strong></p>
                             </div>
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
                     <div class="order-footer d-flex justify-content-between align-items-center">
                         <div>
-                            <p class="mb-0"><strong>Total:</strong> $${order.total.toFixed(
+                            <p class="mb-0"><strong>Total:</strong> DA${order.total.toFixed(
                               2
                             )}</p>
                         </div>
@@ -156,8 +156,8 @@ document.addEventListener("DOMContentLoaded", function () {
         <tr>
           <td>${item.product.name}</td>
           <td>${item.quantity}</td>
-          <td>$${item.price.toFixed(2)}</td>
-          <td>$${(item.price * item.quantity).toFixed(2)}</td>
+          <td>DA${item.price.toFixed(2)}</td>
+          <td>DA${(item.price * item.quantity).toFixed(2)}</td>
         </tr>
       `;
     });
@@ -247,7 +247,7 @@ document.addEventListener("DOMContentLoaded", function () {
             </tbody>
           </table>
           <div class="total">
-            <p>Total: $${order.total.toFixed(2)}</p>
+            <p>Total: DA${order.total.toFixed(2)}</p>
           </div>
           <div class="footer">
             <p>Thank you for your purchase!</p>

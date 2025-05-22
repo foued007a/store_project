@@ -94,6 +94,14 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
+                                    <label for="product-category" class="form-label">Category</label>
+                                    <select class="form-select" id="product-category" required>
+                                        <option value="homme">Homme</option>
+                                        <option value="femme">Femme</option>
+                                        <option value="unisex">Unisex</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
                                     <label for="product-price" class="form-label">Price ($)</label>
                                     <input type="number" class="form-control" id="product-price" step="0.01" min="0"
                                         required>
@@ -106,6 +114,7 @@
                                     <label for="product-threshold" class="form-label">Low Stock Threshold</label>
                                     <input type="number" class="form-control" id="product-threshold" min="0" required>
                                 </div>
+
                             </div>
                             <div class="d-grid gap-2">
                                 <button type="submit" class="btn btn-primary">Save Product</button>
@@ -127,12 +136,14 @@
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Description</th>
+                                        <th>Category</th>
                                         <th>Price</th>
                                         <th>Stock</th>
                                         <th>Threshold</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
+                               
                                 <tbody id="products-table-body">
                                     <tr>
                                         <td colspan="6" class="text-center">Loading products...</td>

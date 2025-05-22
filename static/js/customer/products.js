@@ -16,8 +16,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const cartTotal = document.getElementById("cart-total");
   const cartCount = document.getElementById("cart-count");
   const checkoutBtn = document.getElementById("checkout-btn");
-  // const searchInput = document.getElementById('search-input');
-  // const searchBtn = document.getElementById('search-btn');
 
   // Cart data
   let cart = [];
@@ -39,19 +37,6 @@ document.addEventListener("DOMContentLoaded", function () {
   closeCartBtn.addEventListener("click", function () {
     cartContainer.style.display = "none";
   });
-
-  // Search functionality
-  // searchBtn.addEventListener('click', function() {
-  //     const searchTerm = searchInput.value.trim().toLowerCase();
-  //     fetchProducts(searchTerm);
-  // });
-
-  // searchInput.addEventListener('keypress', function(e) {
-  //     if (e.key === 'Enter') {
-  //         const searchTerm = searchInput.value.trim().toLowerCase();
-  //         fetchProducts(searchTerm);
-  //     }
-  // });
 
   // Fetch products from API
   async function fetchProducts(searchTerm = "") {
@@ -90,13 +75,24 @@ document.addEventListener("DOMContentLoaded", function () {
     products.forEach((product) => {
       html += `
                 <div class="product-card">
-                    <h5>${product.name}</h5>
-                    <p>${product.description || "No description"}</p>
-                    <p><strong>Price:</strong> $${Number(product.price).toFixed(
-                      2
-                    )}</p>
+                    <h5 class="alert alert-info">${product.name}</h5> 
+                    <div class="d-flex">
+                        <div class="flex-grow-1">
+                         <h3>DA${Number(
+                           product.price
+                         ).toFixed(2)}</h3>
+                        </div>
+                         <p class="text-uppercase badge rounded-pill bg-warning text-dark" >${
+                           product.category || "No category"
+                         }</p>
+
+                    </div>
+                    <p calss="fs-6">${
+                      product.description || "No description"
+                    }</p>
+                    
                     <p><strong>In Stock:</strong> ${product.stock}</p>
-                    <button class="btn btn-primary add-to-cart-btn" data-id="${
+                    <button class="btn btn-danger add-to-cart-btn" data-id="${
                       product.id
                     }" data-name="${product.name}" data-price="${Number(
         product.price
@@ -182,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <div class="cart-item">
                     <div>
                         <h6 class="mb-0">${item.name}</h6>
-                        <small class="text-muted">$${Number(item.price).toFixed(
+                        <small class="text-muted">DA${Number(item.price).toFixed(
                           2
                         )} each</small>
                     </div>
@@ -196,8 +192,8 @@ document.addEventListener("DOMContentLoaded", function () {
                         }">+</button>
                     </div>
                     <div>
-                        $${Number(itemTotal).toFixed(2)}
-                        <button class="btn btn-sm text-danger remove-btn" data-id="${
+                        DA${Number(itemTotal).toFixed(2)}
+                        <button class="btn btn-sm btn-danger ms-3 remove-btn" data-id="${
                           item.id
                         }">×</button>
                     </div>
@@ -206,15 +202,17 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     cartItems.innerHTML = html;
-    cartTotal.textContent = `$${Number(total).toFixed(2)}`;
+    cartTotal.textContent = `DA${Number(total).toFixed(2)}`;
 
     // Add event listeners to cart item buttons
     document.querySelectorAll(".increase-btn").forEach((btn) => {
       const productId = parseInt(btn.getAttribute("data-id"));
       const item = cart.find((item) => item.id === productId);
-      const productBtn = document.querySelector(`.add-to-cart-btn[data-id="${productId}"]`);
-      const productStock = parseInt(productBtn.getAttribute('data-stock'));
-      
+      const productBtn = document.querySelector(
+        `.add-to-cart-btn[data-id="${productId}"]`
+      );
+      const productStock = parseInt(productBtn.getAttribute("data-stock"));
+
       // Disable increase button if quantity reaches stock limit
       if (item && item.quantity >= productStock) {
         btn.disabled = true;
@@ -223,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
         btn.disabled = false;
         btn.classList.remove("disabled");
       }
-      
+
       btn.addEventListener("click", function () {
         const productId = parseInt(this.getAttribute("data-id"));
         increaseQuantity(productId);
@@ -253,14 +251,14 @@ document.addEventListener("DOMContentLoaded", function () {
       const productBtn = document.querySelector(
         `.add-to-cart-btn[data-id="${productId}"]`
       );
-      const productStock = parseInt(productBtn.getAttribute('data-stock'));
-      
+      const productStock = parseInt(productBtn.getAttribute("data-stock"));
+
       // Check if increasing would exceed available stock
       if (item.quantity >= productStock) {
         alert(`Sorry, only ${productStock} items available in stock!`);
         return;
       }
-      
+
       item.quantity += 1;
       updateCart();
     }
@@ -294,7 +292,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Set button to loading state
     const originalButtonText = checkoutBtn.innerHTML;
-    checkoutBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...';
+    checkoutBtn.innerHTML =
+      '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...';
     checkoutBtn.disabled = true;
 
     try {

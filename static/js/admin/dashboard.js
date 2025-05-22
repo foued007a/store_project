@@ -72,9 +72,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const ordersCount = salesData.length;
     const avgOrderValue = ordersCount > 0 ? totalSales / ordersCount : 0;
 
-    totalSalesEl.textContent = `$${totalSales.toFixed(2)}`;
+    totalSalesEl.textContent = 'DA '+`${totalSales.toFixed(2)}`;
     ordersCountEl.textContent = ordersCount;
-    avgOrderValueEl.textContent = `$${avgOrderValue.toFixed(2)}`;
+    avgOrderValueEl.textContent = 'DA '+`${avgOrderValue.toFixed(2)}`;
   }
 
   fetchSales();

@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "product-description"
   );
   const productPriceField = document.getElementById("product-price");
+  const productCategorieField = document.getElementById("product-category");
   const productStockField = document.getElementById("product-stock");
   const productThresholdField = document.getElementById("product-threshold");
 
@@ -93,7 +94,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     <td>${product.id}</td>
                     <td>${product.name}</td>
                     <td>${product.description || "No description"}</td>
-                    <td>$${Number(product.price).toFixed(2)}</td>
+                    <td>${product.category || "No description"}</td>
+                    <td>DA${Number(product.price).toFixed(2)}</td>
                     <td>${product.stock}</td>
                     <td>${product.low_stock_threshold || 0}</td>
                     <td>
@@ -143,6 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
       productDescriptionField.value = product.description || "";
       productPriceField.value = product.price;
       productStockField.value = product.stock;
+      productCategorieField.value = product.category;
       productThresholdField.value = product.low_stock_threshold || 0;
 
       // Update form title and show form
@@ -185,6 +188,7 @@ document.addEventListener("DOMContentLoaded", function () {
       name: productNameField.value,
       description: productDescriptionField.value,
       price: parseFloat(productPriceField.value),
+      category: productCategorieField.value,
       stock: parseInt(productStockField.value),
       low_stock_threshold: parseInt(productThresholdField.value),
     };

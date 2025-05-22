@@ -133,8 +133,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 <td>${supplier}</td>
                 <td>${productName}</td>
                 <td>${purchase.quantity}</td>
-                <td>$${unitCost.toFixed(2)}</td>
-                <td>$${totalCost.toFixed(2)}</td>
+                <td>DA${unitCost.toFixed(2)}</td>
+                <td>DA${totalCost.toFixed(2)}</td>
                 <td>
                     <button class="btn btn-sm btn-secondary edit-purchase-btn" data-id="${purchase.id}">Edit</button>
                     <button class="btn btn-sm btn-danger delete-purchase-btn" data-id="${purchase.id}">Delete</button>

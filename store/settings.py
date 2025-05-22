@@ -111,3 +111,7 @@ SIMPLE_JWT = {
 
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
+
+# Email settings
+DEFAULT_FROM_EMAIL = "store@example.com"
+ADMIN_EMAIL = "admin@example.com"

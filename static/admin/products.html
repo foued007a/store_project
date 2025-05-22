@@ -102,6 +102,10 @@
                                     <label for="product-stock" class="form-label">Stock Quantity</label>
                                     <input type="number" class="form-control" id="product-stock" min="0" required>
                                 </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="product-threshold" class="form-label">Low Stock Threshold</label>
+                                    <input type="number" class="form-control" id="product-threshold" min="0" required>
+                                </div>
                             </div>
                             <div class="d-grid gap-2">
                                 <button type="submit" class="btn btn-primary">Save Product</button>
@@ -125,6 +129,7 @@
                                         <th>Description</th>
                                         <th>Price</th>
                                         <th>Stock</th>
+                                        <th>Threshold</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>

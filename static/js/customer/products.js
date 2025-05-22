@@ -100,8 +100,8 @@ document.addEventListener("DOMContentLoaded", function () {
                       product.id
                     }" data-name="${product.name}" data-price="${Number(
         product.price
-      )}">
-                        Add to Cart
+      )}" data-stock="${product.stock}" ${product.stock <= 0 ? "disabled" : ""}>
+                        ${product.stock <= 0 ? "Out of Stock" : "Add to Cart"}
                     </button>
                 </div>
             `;
@@ -123,8 +123,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Add product to cart
   function addToCart(productId, productName, productPrice) {
+    // Find the button to get current stock
+    const productBtn = document.querySelector(
+      `.add-to-cart-btn[data-id="${productId}"]`
+    );
+    const productStock = parseInt(productBtn.getAttribute("data-stock"));
+
+    // Check if product is out of stock
+    if (productStock <= 0) {
+      alert("Sorry, this product is out of stock!");
+      return;
+    }
+
     // Check if product is already in cart
     const existingItem = cart.find((item) => item.id === productId);
+
+    // Check if adding more would exceed available stock
+    if (existingItem && existingItem.quantity >= productStock) {
+      alert(`Sorry, only ${productStock} items available in stock!`);
+      return;
+    }
 
     if (existingItem) {
       existingItem.quantity += 1;
@@ -192,6 +210,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Add event listeners to cart item buttons
     document.querySelectorAll(".increase-btn").forEach((btn) => {
+      const productId = parseInt(btn.getAttribute("data-id"));
+      const item = cart.find((item) => item.id === productId);
+      const productBtn = document.querySelector(`.add-to-cart-btn[data-id="${productId}"]`);
+      const productStock = parseInt(productBtn.getAttribute('data-stock'));
+      
+      // Disable increase button if quantity reaches stock limit
+      if (item && item.quantity >= productStock) {
+        btn.disabled = true;
+        btn.classList.add("disabled");
+      } else {
+        btn.disabled = false;
+        btn.classList.remove("disabled");
+      }
+      
       btn.addEventListener("click", function () {
         const productId = parseInt(this.getAttribute("data-id"));
         increaseQuantity(productId);
@@ -217,6 +249,18 @@ document.addEventListener("DOMContentLoaded", function () {
   function increaseQuantity(productId) {
     const item = cart.find((item) => item.id === productId);
     if (item) {
+      // Find the button to get current stock
+      const productBtn = document.querySelector(
+        `.add-to-cart-btn[data-id="${productId}"]`
+      );
+      const productStock = parseInt(productBtn.getAttribute('data-stock'));
+      
+      // Check if increasing would exceed available stock
+      if (item.quantity >= productStock) {
+        alert(`Sorry, only ${productStock} items available in stock!`);
+        return;
+      }
+      
       item.quantity += 1;
       updateCart();
     }
@@ -247,6 +291,11 @@ document.addEventListener("DOMContentLoaded", function () {
       alert("Your cart is empty!");
       return;
     }
+
+    // Set button to loading state
+    const originalButtonText = checkoutBtn.innerHTML;
+    checkoutBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Processing...';
+    checkoutBtn.disabled = true;
 
     try {
       // Get the current user's client ID
@@ -304,6 +353,10 @@ document.addEventListener("DOMContentLoaded", function () {
     } catch (error) {
       console.error("Checkout failed:", error);
       alert(`Checkout failed: ${error.message}`);
+    } finally {
+      // Reset button state regardless of success or failure
+      checkoutBtn.innerHTML = originalButtonText;
+      checkoutBtn.disabled = false;
     }
   });
 

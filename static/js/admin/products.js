@@ -33,6 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
   );
   const productPriceField = document.getElementById("product-price");
   const productStockField = document.getElementById("product-stock");
+  const productThresholdField = document.getElementById("product-threshold");
 
   // Show/hide product form
   addProductBtn.addEventListener("click", function () {
@@ -94,6 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <td>${product.description || "No description"}</td>
                     <td>$${Number(product.price).toFixed(2)}</td>
                     <td>${product.stock}</td>
+                    <td>${product.low_stock_threshold || 0}</td>
                     <td>
                         <button class="btn btn-sm btn-info edit-btn" data-id="${
                           product.id
@@ -141,6 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
       productDescriptionField.value = product.description || "";
       productPriceField.value = product.price;
       productStockField.value = product.stock;
+      productThresholdField.value = product.low_stock_threshold || 0;
 
       // Update form title and show form
       formTitle.textContent = "Edit Product";
@@ -183,6 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
       description: productDescriptionField.value,
       price: parseFloat(productPriceField.value),
       stock: parseInt(productStockField.value),
+      low_stock_threshold: parseInt(productThresholdField.value),
     };
 
     const productId = productIdField.value;

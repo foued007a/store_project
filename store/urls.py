@@ -15,13 +15,6 @@ urlpatterns = [
 ]
 
 # إعدادات عرض الملفات الثابتة (CSS, JavaScript, Images)
-if settings.DEBUG:
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATICFILES_DIRS)
 
-from django.contrib import admin
-from django.urls import path, include
 
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('app/', include('app.urls')),  # تأكد من استخدام اسم تطبيقك هنا
-]
+

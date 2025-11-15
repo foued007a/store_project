@@ -1,0 +1,30 @@
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import (
+    RegisterView, LoginView, ProductViewSet, UserViewSet, ClientViewSet,
+    PurchaseViewSet, SaleViewSet, ClientPurchaseHistoryView
+)
+
+# إنشاء راوتر للـ ViewSets
+router = DefaultRouter()
+router.register(r'products', ProductViewSet)
+router.register(r'users', UserViewSet)
+router.register(r'clients', ClientViewSet)
+router.register(r'purchases', PurchaseViewSet)
+router.register(r'sales', SaleViewSet)
+
+urlpatterns = [
+    path('', include(router.urls)),  # ✅ لا تكرر `/api/` هنا، لأنه موجود في store/urls.py
+    path('register/', RegisterView.as_view(), name='register'),
+    path('login/', LoginView.as_view(), name='login'),
+    path('history/', ClientPurchaseHistoryView.as_view({'get': 'list'}), name='purchase-history'),
+]
+# app/urls.py
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('dashboard/', views.dashboard, name='dashboard'),
+]
+
+

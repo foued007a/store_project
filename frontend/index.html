@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Store</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Store Dashboard</h1>
+        <button id="logoutBtn">Logout</button>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="clients.html">Clients</a></li>
+            <li><a href="sales.html">Sales</a></li>
+            <li><a href="purchases.html">Purchases</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h2>Welcome to the Dashboard!</h2>
+        <p>Use the menu above to manage your store.</p>
+    </main>
+
+    <script>
+        const logoutBtn = document.getElementById("logoutBtn");
+        logoutBtn.addEventListener("click", () => {
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("refresh_token");
+            window.location.href = "login.html";
+        });
+    </script>
+</body>
+</html>

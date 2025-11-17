@@ -1,0 +1,103 @@
+/* تصميم عام للجسم */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* صندوق تسجيل الدخول */
+.login-container {
+    width: 300px;
+    margin: 100px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* عنوان الصفحة */
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* الحقول */
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    box-sizing: border-box;
+}
+
+/* زر تسجيل الدخول */
+.login-container button {
+    width: 100%;
+    padding: 10px;
+    background: #007BFF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* تأثير hover على الزر */
+.login-container button:hover {
+    background: #0056b3;
+}
+
+/* رسالة الخطأ */
+.error {
+    color: red;
+    margin-top: 10px;
+    text-align: center;
+}
+
+header {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+header button {
+    padding: 8px 12px;
+    background-color: #fff;
+    color: #007BFF;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+header button:hover {
+    background-color: #e6e6e6;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    background-color: #f1f1f1;
+    margin: 0;
+}
+
+nav ul li {
+    margin: 0;
+}
+
+nav ul li a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #007BFF;
+}
+
+nav ul li a:hover {
+    background-color: #ddd;
+}

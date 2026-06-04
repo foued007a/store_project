@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = "django-insecure-(gcgv1=!5_fdlx#@@xc^sn*9zjg2_kv@!u@6)jwaceh1wst#)+"
 DEBUG = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '172.20.10.7']
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -40,7 +40,7 @@ ROOT_URLCONF = "store.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [os.path.join(BASE_DIR, "templates")],  # إعداد مجلد القوالب
+        "DIRS": [os.path.join(BASE_DIR, "static")],  # إعداد مجلد القوالب
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [

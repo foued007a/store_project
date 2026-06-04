@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Project - Dashboard</title>
+    <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <style>
+        .navbar {
+            margin-bottom: 20px;
+        }
+
+        #products-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .auth-required {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg text-dark bg-white p-3 border-bottom-3">
+        <div class="container">
+            <a class="navbar-brand" href="#">Store Project</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse m-3" id="navbarNav">
+                <ul class="navbar-nav gap-2 me-auto">
+                    <li class="navbar-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="navbar-item auth-required">
+                        <a class="nav-link" href="#" id="purchase-history-link">Purchase History</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <div class="auth-required">
+                        <span class="navbar-text me-3" id="username-display"></span>
+                        <button class="btn btn-outline-danger" id="logout-btn">Logout</button>
+                    </div>
+                    <div class="auth-not-required">
+                        <a href="login.html" class="btn btn-outline-light me-2">Login</a>
+                        <a href="register.html" class="btn btn-light">Register</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="dashboard-container">
+            <h2>Welcome to the Store</h2>
+            <p class="auth-not-required">Please login or register to access all features.</p>
+            <div class="auth-required">
+                <p>You are logged in. You can now access all features of the store.</p>
+                <div class="alert alert-info">
+                    <strong>Note:</strong> All API requests now include your authentication token automatically.
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-container">
+            <h3>Products</h3>
+            <div id="products-container">
+                <div class="text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/role-router.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const authRequired = document.querySelectorAll('.auth-required');
+            const authNotRequired = document.querySelectorAll('.auth-not-required');
+            const usernameDisplay = document.getElementById('username-display');
+            const logoutBtn = document.getElementById('logout-btn');
+            const productsContainer = document.getElementById('products-container');
+
+            // Check authentication status and redirect based on role
+            function updateAuthUI() {
+                const isLoggedIn = window.Auth.isAuthenticated();
+
+                // If logged in, redirect based on role
+                if (isLoggedIn) {
+                    // Get user role and redirect
+                    const role = window.RoleRouter.getUserRole();
+                    if (role === 'owner') {
+                        window.location.href = '/static/admin/dashboard.html';
+                        return;
+                    } else if (role === 'customer') {
+                        window.location.href = '/static/customer/products.html';
+                        return;
+                    }
+
+                    // If role not recognized, just update UI
+                    usernameDisplay.textContent = 'Welcome, User!';
+                }
+
+                // Update UI based on authentication status
+                authRequired.forEach(el => {
+                    el.style.display = isLoggedIn ? 'block' : 'none';
+                });
+
+                authNotRequired.forEach(el => {
+                    el.style.display = isLoggedIn ? 'none' : 'block';
+                });
+            }
+
+            // Logout functionality
+            logoutBtn.addEventListener('click', function () {
+                window.Auth.logout();
+                updateAuthUI();
+            });
+
+            // Example of making an authenticated API request
+            async function fetchProducts() {
+                try {
+                    const response = await window.Auth.apiRequest('/products/');
+
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch products');
+                    }
+
+                    const products = await response.json();
+                    displayProducts(products);
+                } catch (error) {
+                    console.error('Error fetching products:', error);
+                    productsContainer.innerHTML = `
+                        <div class="alert alert-danger">
+                            Failed to load products. ${error.message}
+                        </div>
+                    `;
+                }
+            }
+
+            function displayProducts(products) {
+                if (products.length === 0) {
+                    productsContainer.innerHTML = '<p>No products available.</p>';
+                    return;
+                }
+
+                let html = '';
+                products.forEach(product => {
+                    html += `
+                        <div class="product-card">
+                            <h5>${product.name}</h5>
+                            <p>${product.description || 'No description'}</p>
+                            <p><strong>Price:</strong> DA${product.price}</p>
+                            <button class="btn btn-sm btn-primary">Add to Cart</button>
+                        </div>
+                    `;
+                });
+
+                productsContainer.innerHTML = html;
+            }
+
+            // Initialize the page
+            updateAuthUI();
+            fetchProducts();
+        });
+    </script>
+</body>
+
+</html>

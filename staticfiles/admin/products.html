@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management - Store Project</title>
+    <link href="../assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/css/styles.css" rel="stylesheet">
+    <style>
+        .navbar {
+            margin-bottom: 20px;
+        }
+
+        .sidebar {
+            min-height: calc(100vh - 60px);
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+
+        .sidebar .nav-link {
+            color: #333;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background-color: #e9ecef;
+        }
+
+        .main-content {
+            padding: 20px;
+        }
+
+        .product-form {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg text-dark bg-white p-3 border-bottom-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Store Admin</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse m-3" id="navbarNav">
+                <ul class="navbar-nav gap-2 me-auto">
+                    <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="products.html">Products</a></li>
+                    <li class="nav-item"><a class="nav-link" href="users.html">Users</a></li>
+                    <li class="nav-item"><a class="nav-link " href="sales.html">Sales</a></li>
+                    <li class="nav-item"><a class="nav-link" href="purchases.html">Purchases</a></li>
+                </ul>
+                </li>
+                </ul>
+                <div class="d-flex">
+                    <span class="navbar-text me-3" id="username-display"></span>
+                    <button class="btn btn-outline-danger" id="logout-btn">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+
+
+            <!-- Main Content -->
+            <div class="col-12 main-content">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Product Management</h2>
+                    <button class="btn btn-primary" id="add-product-btn">Add New Product</button>
+                </div>
+
+                <!-- Product Form -->
+                <div class="card mb-4 product-form" id="product-form-container">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 id="form-title">Add New Product</h5>
+                        <button type="button" class="btn-close" id="close-form-btn"></button>
+                    </div>
+                    <div class="card-body">
+                        <form id="product-form">
+                            <input type="hidden" id="product-id">
+                            <div class="mb-3">
+                                <label for="product-name" class="form-label">Product Name</label>
+                                <input type="text" class="form-control" id="product-name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="product-description" class="form-label">Description</label>
+                                <textarea class="form-control" id="product-description" rows="3"></textarea>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="product-category" class="form-label">Category</label>
+                                    <select class="form-select" id="product-category" required>
+                                        <option value="homme">Homme</option>
+                                        <option value="femme">Femme</option>
+                                        <option value="unisex">Unisex</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="product-price" class="form-label">Price ($)</label>
+                                    <input type="number" class="form-control" id="product-price" step="0.01" min="0"
+                                        required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="product-stock" class="form-label">Stock Quantity</label>
+                                    <input type="number" class="form-control" id="product-stock" min="0" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="product-threshold" class="form-label">Low Stock Threshold</label>
+                                    <input type="number" class="form-control" id="product-threshold" min="0" required>
+                                </div>
+
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">Save Product</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Products Table -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Products List</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th>Stock</th>
+                                        <th>Threshold</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                               
+                                <tbody id="products-table-body">
+                                    <tr>
+                                        <td colspan="6" class="text-center">Loading products...</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/admin/products.js"></script>
+
+</body>
+
+</html>

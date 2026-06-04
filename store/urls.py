@@ -16,6 +16,5 @@ urlpatterns = [
         "api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"
     ),  # تحديث التوكن
     path("login/", LoginView.as_view(), name="login"),  # مسار تسجيل الدخول
-]
-
+] + static("login/", document_root=settings.STATICFILES_DIRS[0]) 
 # إعدادات عرض الملفات الثابتة (CSS, JavaScript, Images)
